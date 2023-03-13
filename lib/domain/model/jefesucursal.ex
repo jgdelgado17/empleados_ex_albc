@@ -33,9 +33,9 @@ defmodule EmpleadosExAlbc.Domain.Model.Jefesucursal do
     }
   end
 
-  @spec find_by_id(binary()) ::
-          {:error, atom()} | {:ok, __MODULE__.t()}
-  def find_by_id(id) when is_nil(id), do: {:error, :invalid_id}
+  # @spec find_by_id(binary()) ::
+  #         {:error, atom()} | {:ok, __MODULE__.t()}
+  # def find_by_id(id) when is_nil(id), do: {:error, :invalid_id}
 
   def find_by_id(id) do
     {

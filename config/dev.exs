@@ -14,6 +14,8 @@ config :empleados_ex_albc,
 config :logger,
   level: :debug
 
+config :empleados_ex_albc, ecto_repos: [EmpleadosExAlbc.Infrastructure.Adapters.Repository.Repo]
+
 config :empleados_ex_albc, EmpleadosExAlbc.Infrastructure.Adapters.Repository.Repo,
   database: "empleados_ex_albc",
   username: "username",
@@ -26,4 +28,5 @@ config :empleados_ex_albc, EmpleadosExAlbc.Infrastructure.Adapters.Repository.Re
 config :empleados_ex_albc,
   jefesucursal_behaviour:
     EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.JefesucursalDataRepository,
-  generate_uuid_behavior: EmpleadosExAlbc.Infrastructure.DrivenAdapters.Repository.Generic.UuidData
+  generate_uuid_behavior:
+    EmpleadosExAlbc.Infrastructure.DrivenAdapters.Repository.Generic.UuidData

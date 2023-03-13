@@ -2,8 +2,8 @@ defmodule EmpleadosExAlbc.Domain.UseCase.RegisterJefesucursalUseCase do
   alias EmpleadosExAlbc.Domain.Model.Jefesucursal
   require Logger
 
-  @jefesucursal_behaviour Application.compile_env(:atm_pseudo_app_ca, :jefesucursal_behaviour)
-  @generate_uuid_behavior Application.compile_env(:atm_pseudo_app_ca, :generate_uuid_behavior)
+  @jefesucursal_behaviour Application.compile_env(:empleados_ex_albc, :jefesucursal_behaviour)
+  @generate_uuid_behavior Application.compile_env(:empleados_ex_albc, :generate_uuid_behavior)
 
   def register(data) do
     map_with_id = Map.put(data, :id, generate_uuid_jefesucursal())
