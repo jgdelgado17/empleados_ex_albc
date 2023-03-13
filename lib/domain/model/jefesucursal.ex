@@ -18,7 +18,7 @@ defmodule EmpleadosExAlbc.Domain.Model.Jefesucursal do
         }
 
   @spec new(binary(), String.t(), String.t(), Date.t()) ::
-          {:error, :invalid_jefesucursal} | {:ok, __MODULE__.t()}
+          {:error, atom()} | {:ok, __MODULE__.t()}
   def new(id, _, _, _) when is_nil(id), do: {:error, :invalid_jefesucursal}
 
   def new(id, nombres, apellidos, fecha_ingreso) do
@@ -34,7 +34,7 @@ defmodule EmpleadosExAlbc.Domain.Model.Jefesucursal do
   end
 
   @spec find_by_id(binary()) ::
-          {:error, :invalid_id} | {:ok, __MODULE__.t()}
+          {:error, atom()} | {:ok, __MODULE__.t()}
   def find_by_id(id) when is_nil(id), do: {:error, :invalid_id}
 
   def find_by_id(id) do
