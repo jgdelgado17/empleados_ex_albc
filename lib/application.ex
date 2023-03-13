@@ -38,6 +38,7 @@ defmodule EmpleadosExAlbc.Application do
   end
 
   def env_children(_other_env) do
-    []
+    [
+			{EmpleadosExAlbc.Infrastructure.Adapters.Repository.Repo, []},]
   end
 end

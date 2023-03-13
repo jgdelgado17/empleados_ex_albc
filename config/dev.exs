@@ -3,13 +3,27 @@ import Config
 config :empleados_ex_albc, timezone: "America/Bogota"
 
 config :empleados_ex_albc,
-       http_port: 8083,
-       enable_server: true,
-       secret_name: "",
-       region: "",
-       version: "0.0.1",
-       in_test: false,
-       custom_metrics_prefix_name: "empleados_ex_albc_local"
+  http_port: 8083,
+  enable_server: true,
+  secret_name: "",
+  region: "",
+  version: "0.0.1",
+  in_test: false,
+  custom_metrics_prefix_name: "empleados_ex_albc_local"
 
 config :logger,
-       level: :debug
+  level: :debug
+
+config :empleados_ex_albc, EmpleadosExAlbc.Infrastructure.Adapters.Repository.Repo,
+  database: "empleados_ex_albc",
+  username: "username",
+  password: "password",
+  hostname: "hostname",
+  port: 5432,
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
+config :empleados_ex_albc,
+  jefesucursal_behaviour:
+    EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.JefesucursalDataRepository,
+  generate_uuid_behavior: EmpleadosExAlbc.Infrastructure.DrivenAdapters.Repository.Generic.UuidData

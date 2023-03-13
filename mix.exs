@@ -23,6 +23,8 @@ defmodule EmpleadosExAlbc.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:postgrex, "~> 0.16"},
+      {:ecto_sql, "~> 3.9"},
       {:opentelemetry_plug, git: "https://github.com/juancgalvis/opentelemetry_plug.git", ref: "82206fb09fbeb9ffa2f167a5f58ea943c117c003", override: true},
       {:opentelemetry_api, "~> 0.6.0", override: true},
       {:opentelemetry_exporter, "~> 0.6.0"},

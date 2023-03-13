@@ -13,3 +13,10 @@ config :empleados_ex_albc,
 
 config :logger,
        level: :debug
+
+config :empleados_ex_albc, EmpleadosExAlbc.Infrastructure.Adapters.Repository.Repo,
+database: "",
+username: "",
+password: "",
+hostname: "",
+pool_size: 10
