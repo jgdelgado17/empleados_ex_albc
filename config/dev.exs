@@ -18,9 +18,9 @@ config :empleados_ex_albc, ecto_repos: [EmpleadosExAlbc.Infrastructure.Adapters.
 
 config :empleados_ex_albc, EmpleadosExAlbc.Infrastructure.Adapters.Repository.Repo,
   database: "empleados_ex_albc",
-  username: "username",
-  password: "password",
-  hostname: "hostname",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
   port: 5432,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
