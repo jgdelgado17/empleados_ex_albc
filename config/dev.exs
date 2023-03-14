@@ -29,4 +29,6 @@ config :empleados_ex_albc,
   generate_uuid_behaviour:
     EmpleadosExAlbc.Infrastructure.DrivenAdapters.Repository.Generic.UuidData,
   jefesucursal_behaviour:
-    EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.JefesucursalDataRepository
+    EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.JefesucursalDataRepository,
+  supervisor_behaviour:
+    EmpleadosExAlbc.Infrastructure.Adapters.Repository.Supervisor.SupervisorDataRepository

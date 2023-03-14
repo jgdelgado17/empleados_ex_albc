@@ -43,4 +43,11 @@ defmodule EmpleadosExAlbc.Domain.Model.Jefesucursal do
       %__MODULE__{id: id}
     }
   end
+
+  def find_all() do
+    {
+      :ok,
+      [%__MODULE__{}]
+    }
+  end
 end

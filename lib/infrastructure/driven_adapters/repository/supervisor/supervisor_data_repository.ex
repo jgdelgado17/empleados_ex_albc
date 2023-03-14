@@ -1,10 +1,10 @@
-defmodule EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.JefesucursalDataRepository do
+defmodule EmpleadosExAlbc.Infrastructure.Adapters.Repository.Supervisor.SupervisorDataRepository do
   alias EmpleadosExAlbc.Infrastructure.Adapters.Repository.Repo
-  alias EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.Data.JefesucursalData
-  alias EmpleadosExAlbc.Domain.Model.Jefesucursal
+  alias EmpleadosExAlbc.Infrastructure.Adapters.Repository.Supervisor.Data.SupervisorData
+  alias EmpleadosExAlbc.Domain.Model.Supervisor
 
   ## TODO: Update behaviour
-  @behaviour EmpleadosExAlbc.Domain.Behaviours.JefesucursalBehaviour
+  @behaviour EmpleadosExAlbc.Domain.Behaviours.SupervisorBehaviour
 
   def register(entity) do
     case to_data(entity) |> Repo.insert() do
@@ -14,14 +14,10 @@ defmodule EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.Jefesu
   end
 
   def find_by_id(id) do
-    case JefesucursalData |> Repo.get!(id) do
+    case SupervisorData |> Repo.get!(id) do
       {:ok, entity} -> {:ok, entity |> to_entity()}
       error -> error
     end
-  end
-
-  def find_all() do
-    {:ok, JefesucursalData |> Repo.all()}
   end
 
   def insert(entity) do
@@ -34,11 +30,11 @@ defmodule EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.Jefesu
   defp to_entity(nil), do: nil
 
   defp to_entity(data) do
-    struct(Jefesucursal, data |> Map.from_struct())
+    struct(Supervisor, data |> Map.from_struct())
   end
 
   defp to_data(entity) do
-    prop = JefesucursalData.changeset(%JefesucursalData{}, entity |> Map.from_struct()).changes
-    struct(JefesucursalData, prop)
+    prop = SupervisorData.changeset(%SupervisorData{}, entity |> Map.from_struct()).changes
+    struct(SupervisorData, prop)
   end
 end

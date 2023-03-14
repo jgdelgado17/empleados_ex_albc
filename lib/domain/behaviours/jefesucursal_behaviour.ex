@@ -10,4 +10,8 @@ defmodule EmpleadosExAlbc.Domain.Behaviours.JefesucursalBehaviour do
   @callback register(Jefesucursal.t()) :: {:ok, Jefesucursal.t()} | {:error, reason :: atom()}
 
   @callback find_by_id(String.t()) :: {:ok, Jefesucursal.t()} | {:error, reason :: atom()}
+
+  @callback find_all() :: {:ok, [Jefesucursal.t()]} | {:error, reason :: atom()}
+
+  # @callback update(String.t(), Jefesucursal.t()) :: {:ok, Jefesucursal.t()} | {:error, reason :: atom()}
 end
