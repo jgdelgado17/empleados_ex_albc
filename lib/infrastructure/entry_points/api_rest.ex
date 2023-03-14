@@ -3,6 +3,7 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   Access point to the rest exposed services
   """
   # alias EmpleadosExAlbc.Utils.DataTypeUtils
+  alias EmpleadosExAlbc.Domain.UseCase.RegisterJefesucursalUseCase
   alias EmpleadosExAlbc.Domain.UseCase.GetJefesucursalUseCase
   alias EmpleadosExAlbc.Infrastructure.EntryPoint.ErrorHandler
   require Logger
@@ -38,6 +39,17 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   get "/empleados_ex_albc/api/jefesucursal/:id" do
     jefesucursal = GetJefesucursalUseCase.find_by_id(%{id: id})
     build_response(jefesucursal, conn)
+  end
+
+  post "/empleados_ex_albc/api/jefesucursal" do
+    # Convertimos el mapa con formato de String al formato de átomos
+    params_map = conn.params |> Map.new(fn {key, value} -> {String.to_atom(key), value} end)
+
+    # Llamamos a nuestro caso de uso, le pasamos nuestro mapa convertido y hacemos las validaciones con pattern matching
+    case RegisterJefesucursalUseCase.register(params_map) do
+      {:ok, library} -> library |> build_response(conn)
+      {:error, error} -> %{status: 500, body: error} |> build_response(conn)
+    end
   end
 
   def build_response(%{status: status, body: body}, conn) do
