@@ -6,6 +6,7 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   alias EmpleadosExAlbc.Domain.UseCase.RegisterJefesucursalUseCase
   alias EmpleadosExAlbc.Domain.UseCase.GetJefesucursalUseCase
   alias EmpleadosExAlbc.Domain.UseCase.GetAllJefesucursalUseCase
+  alias EmpleadosExAlbc.Domain.UseCase.DeleteJefesucursalUseCase
   alias EmpleadosExAlbc.Infrastructure.EntryPoint.ErrorHandler
   require Logger
   use Plug.Router
@@ -55,6 +56,13 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
 
     # Llamamos a nuestro caso de uso, le pasamos nuestro mapa convertido y hacemos las validaciones con pattern matching
     case RegisterJefesucursalUseCase.register(params_map) do
+      {:ok, jefesucursal} -> jefesucursal |> build_response(conn)
+      {:error, error} -> %{status: 500, body: error} |> build_response(conn)
+    end
+  end
+
+  delete "/empleados_ex_albc/api/jefesucursal/:id" do
+    case DeleteJefesucursalUseCase.delete(%{id: id}) do
       {:ok, jefesucursal} -> jefesucursal |> build_response(conn)
       {:error, error} -> %{status: 500, body: error} |> build_response(conn)
     end

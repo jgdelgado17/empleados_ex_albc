@@ -24,6 +24,21 @@ defmodule EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.Jefesu
     {:ok, JefesucursalData |> Repo.all()}
   end
 
+  def delete(id) do
+    jefesucursal = Repo.get!(JefesucursalData, id)
+    case Repo.delete jefesucursal do
+      {:ok, entity} -> {:ok, entity |> to_entity}
+      error -> error
+    end
+
+    # jefesucursal = find_by_id(id)
+
+    # case to_data(jefesucursal) |> Repo.delete() do
+    #   {:ok, entity} -> {:ok, entity |> to_entity()}
+    #   error -> error
+    # end
+  end
+
   def insert(entity) do
     case to_data(entity) |> Repo.insert() do
       {:ok, entity} -> entity |> to_entity()

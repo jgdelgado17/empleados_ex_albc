@@ -13,5 +13,7 @@ defmodule EmpleadosExAlbc.Domain.Behaviours.JefesucursalBehaviour do
 
   @callback find_all() :: {:ok, [Jefesucursal.t()]} | {:error, reason :: atom()}
 
+  @callback delete(String.t()) :: {:ok, Jefesucursal.t()} | {:error, reason :: atom()}
+
   # @callback update(String.t(), Jefesucursal.t()) :: {:ok, Jefesucursal.t()} | {:error, reason :: atom()}
 end

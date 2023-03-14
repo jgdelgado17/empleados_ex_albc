@@ -50,4 +50,11 @@ defmodule EmpleadosExAlbc.Domain.Model.Jefesucursal do
       [%__MODULE__{}]
     }
   end
+
+  def delete(id) do
+    {
+      :ok,
+      %__MODULE__{id: id}
+    }
+  end
 end
