@@ -1,9 +1,9 @@
 defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
-
   @moduledoc """
   Access point to the rest exposed services
   """
-  alias EmpleadosExAlbc.Utils.DataTypeUtils
+  # alias EmpleadosExAlbc.Utils.DataTypeUtils
+  alias EmpleadosExAlbc.Domain.UseCase.GetJefesucursalUseCase
   alias EmpleadosExAlbc.Infrastructure.EntryPoint.ErrorHandler
   require Logger
   use Plug.Router
@@ -24,13 +24,21 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   forward(
     "/empleados_ex_albc/api/health",
     to: PlugCheckup,
-    init_opts: PlugCheckup.Options.new(json_encoder: Jason, checks: EmpleadosExAlbc.Infrastructure.EntryPoint.HealthCheck.checks)
+    init_opts:
+      PlugCheckup.Options.new(
+        json_encoder: Jason,
+        checks: EmpleadosExAlbc.Infrastructure.EntryPoint.HealthCheck.checks()
+      )
   )
 
   get "/empleados_ex_albc/api/hello/" do
     build_response("Hello World", conn)
   end
 
+  get "/empleados_ex_albc/api/jefesucursal/:id" do
+    jefesucursal = GetJefesucursalUseCase.find_by_id(%{id: id})
+    build_response(jefesucursal, conn)
+  end
 
   def build_response(%{status: status, body: body}, conn) do
     conn

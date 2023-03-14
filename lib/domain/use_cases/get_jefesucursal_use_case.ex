@@ -6,10 +6,10 @@ defmodule EmpleadosExAlbc.Domain.UseCase.GetJefesucursalUseCase do
 
   def find_by_id(data) do
     with {:ok, jefesucursal} <- Jefesucursal.find_by_id(data[:id]),
-         #{:ok, _} <- legal_validation(jefesucursal),
-         {:ok, get_jefesucursal} <- find_by_id_jefesucursal(Map.get(jefesucursal, :id))  do
-           Logger.info("Founded jefesucursal: #{inspect(get_jefesucursal)}")
-         {:ok, get_jefesucursal}
+         # {:ok, _} <- legal_validation(jefesucursal),
+         {:ok, get_jefesucursal} <- find_by_id_jefesucursal(Map.get(jefesucursal, :id)) do
+      Logger.info("Founded jefesucursal: #{inspect(get_jefesucursal)}")
+      {:ok, get_jefesucursal}
     end
   end
 

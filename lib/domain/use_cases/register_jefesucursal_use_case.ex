@@ -3,7 +3,7 @@ defmodule EmpleadosExAlbc.Domain.UseCase.RegisterJefesucursalUseCase do
   require Logger
 
   @jefesucursal_behaviour Application.compile_env(:empleados_ex_albc, :jefesucursal_behaviour)
-  @generate_uuid_behavior Application.compile_env(:empleados_ex_albc, :generate_uuid_behavior)
+  @generate_uuid_behaviour Application.compile_env(:empleados_ex_albc, :generate_uuid_behaviour)
 
   def register(data) do
     map_with_id = Map.put(data, :id, generate_uuid_jefesucursal())
@@ -34,6 +34,6 @@ defmodule EmpleadosExAlbc.Domain.UseCase.RegisterJefesucursalUseCase do
   end
 
   defp generate_uuid_jefesucursal() do
-    @generate_uuid_behavior.generate_uuid()
+    @generate_uuid_behaviour.generate_uuid()
   end
 end
