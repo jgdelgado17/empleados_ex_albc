@@ -15,5 +15,6 @@ defmodule EmpleadosExAlbc.Domain.Behaviours.JefesucursalBehaviour do
 
   @callback delete(String.t()) :: {:ok, Jefesucursal.t()} | {:error, reason :: atom()}
 
-  # @callback update(String.t(), Jefesucursal.t()) :: {:ok, Jefesucursal.t()} | {:error, reason :: atom()}
+  @callback update(String.t(), Jefesucursal.t()) ::
+              {:ok, Jefesucursal.t()} | {:error, reason :: atom()}
 end

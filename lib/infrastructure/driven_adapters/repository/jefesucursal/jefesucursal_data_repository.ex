@@ -26,14 +26,29 @@ defmodule EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.Jefesu
 
   def delete(id) do
     jefesucursal = Repo.get!(JefesucursalData, id)
-    case Repo.delete jefesucursal do
+
+    case Repo.delete(jefesucursal) do
+      {:ok, entity} -> {:ok, entity |> to_entity}
+      error -> error
+    end
+  end
+
+  def update(id, entity) do
+    jefesucursal = Repo.get!(JefesucursalData, id)
+
+    jefesucursal =
+      Ecto.Changeset.change(jefesucursal,
+        nombres: entity.nombres,
+        apellidos: entity.apellidos,
+        fecha_ingreso: Date.from_iso8601(entity.fecha_ingreso) |> elem(1)
+      )
+
+    case Repo.update(jefesucursal) do
       {:ok, entity} -> {:ok, entity |> to_entity}
       error -> error
     end
 
-    # jefesucursal = find_by_id(id)
-
-    # case to_data(jefesucursal) |> Repo.delete() do
+    # case to_data(jefesucursal) |> Repo.update() do
     #   {:ok, entity} -> {:ok, entity |> to_entity()}
     #   error -> error
     # end

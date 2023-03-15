@@ -33,10 +33,6 @@ defmodule EmpleadosExAlbc.Domain.Model.Jefesucursal do
     }
   end
 
-  # @spec find_by_id(binary()) ::
-  #         {:error, atom()} | {:ok, __MODULE__.t()}
-  # def find_by_id(id) when is_nil(id), do: {:error, :invalid_id}
-
   def find_by_id(id) do
     {
       :ok,
@@ -55,6 +51,17 @@ defmodule EmpleadosExAlbc.Domain.Model.Jefesucursal do
     {
       :ok,
       %__MODULE__{id: id}
+    }
+  end
+
+  def update(nombres, apellidos, fecha_ingreso) do
+    {
+      :ok,
+      %__MODULE__{
+        nombres: nombres,
+        apellidos: apellidos,
+        fecha_ingreso: fecha_ingreso
+      }
     }
   end
 end

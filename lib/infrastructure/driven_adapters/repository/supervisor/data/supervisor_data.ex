@@ -1,6 +1,7 @@
 defmodule EmpleadosExAlbc.Infrastructure.Adapters.Repository.Supervisor.Data.SupervisorData do
   use Ecto.Schema
   import Ecto.Changeset
+  alias EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.Data.JefesucursalData
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -11,7 +12,8 @@ defmodule EmpleadosExAlbc.Infrastructure.Adapters.Repository.Supervisor.Data.Sup
     field :fecha_ingreso, :date
     field :nombres, :string
     # has_many :cajero, EmpleadossPhoenix.Cajeros.Cajero
-    belongs_to :jefesucursal, EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.Data.JefesucursalData
+    # belongs_to :jefesucursal, EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.Data.JefesucursalData
+    belongs_to(:jefesucursal, JefesucursalData, foreign_key: :jefesucursal_id)
 
     timestamps()
   end

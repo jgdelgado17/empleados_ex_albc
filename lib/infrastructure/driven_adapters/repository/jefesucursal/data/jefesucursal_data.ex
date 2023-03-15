@@ -8,7 +8,7 @@ defmodule EmpleadosExAlbc.Infrastructure.Adapters.Repository.Jefesucursal.Data.J
     field :apellidos, :string
     field :fecha_ingreso, :date
     field :nombres, :string
-    # has_many :supervisor, EmpleadosExAlbc.Infrastructure.Adapters.Repository.Supervisor.Data.SupervisorData
+    has_many :supervisor, EmpleadosExAlbc.Infrastructure.Adapters.Repository.Supervisor.Data.SupervisorData
 
     timestamps()
   end

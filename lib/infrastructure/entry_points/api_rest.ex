@@ -7,6 +7,7 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   alias EmpleadosExAlbc.Domain.UseCase.GetJefesucursalUseCase
   alias EmpleadosExAlbc.Domain.UseCase.GetAllJefesucursalUseCase
   alias EmpleadosExAlbc.Domain.UseCase.DeleteJefesucursalUseCase
+  alias EmpleadosExAlbc.Domain.UseCase.UpdateJefesucursalUseCase
   alias EmpleadosExAlbc.Infrastructure.EntryPoint.ErrorHandler
   require Logger
   use Plug.Router
@@ -51,11 +52,18 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   end
 
   post "/empleados_ex_albc/api/jefesucursal" do
-    # Convertimos el mapa con formato de String al formato de átomos
     params_map = conn.params |> Map.new(fn {key, value} -> {String.to_atom(key), value} end)
 
-    # Llamamos a nuestro caso de uso, le pasamos nuestro mapa convertido y hacemos las validaciones con pattern matching
     case RegisterJefesucursalUseCase.register(params_map) do
+      {:ok, jefesucursal} -> jefesucursal |> build_response(conn)
+      {:error, error} -> %{status: 500, body: error} |> build_response(conn)
+    end
+  end
+
+  put "/empleados_ex_albc/api/jefesucursal/:id" do
+    params_map = conn.params |> Map.new(fn {key, value} -> {String.to_atom(key), value} end)
+
+    case UpdateJefesucursalUseCase.update(id, params_map) do
       {:ok, jefesucursal} -> jefesucursal |> build_response(conn)
       {:error, error} -> %{status: 500, body: error} |> build_response(conn)
     end
