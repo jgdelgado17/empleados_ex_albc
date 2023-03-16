@@ -62,7 +62,7 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
     case GetAllJefesucursalUseCase.find_all() do
       {:ok, jefesucursal} ->
         Enum.map(jefesucursal, fn mapa ->
-          Map.drop(mapa, [:__meta__, :inserted_at, :updated_at])
+          Map.drop(mapa, [:__meta__, :inserted_at, :updated_at, :supervisor])
         end)
         |> build_response(conn)
 
