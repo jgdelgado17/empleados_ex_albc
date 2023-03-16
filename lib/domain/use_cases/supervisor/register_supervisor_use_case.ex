@@ -1,4 +1,4 @@
-defmodule EmpleadosExAlbc.Domain.UseCase.RegisterSupervisorUseCase do
+defmodule EmpleadosExAlbc.Domain.UseCases.Supervisor.RegisterSupervisorUseCase do
   alias EmpleadosExAlbc.Domain.Model.Supervisor
   require Logger
 

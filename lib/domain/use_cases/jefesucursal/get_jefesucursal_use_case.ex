@@ -1,4 +1,4 @@
-defmodule EmpleadosExAlbc.Domain.UseCase.GetJefesucursalUseCase do
+defmodule EmpleadosExAlbc.Domain.UseCases.Jefesucursal.GetJefesucursalUseCase do
   alias EmpleadosExAlbc.Domain.Model.Jefesucursal
   require Logger
 

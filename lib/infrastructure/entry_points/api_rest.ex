@@ -3,12 +3,12 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   Access point to the rest exposed services
   """
   # alias EmpleadosExAlbc.Utils.DataTypeUtils
-  alias EmpleadosExAlbc.Domain.UseCase.RegisterSupervisorUseCase
-  alias EmpleadosExAlbc.Domain.UseCase.RegisterJefesucursalUseCase
-  alias EmpleadosExAlbc.Domain.UseCase.GetJefesucursalUseCase
-  alias EmpleadosExAlbc.Domain.UseCase.GetAllJefesucursalUseCase
-  alias EmpleadosExAlbc.Domain.UseCase.DeleteJefesucursalUseCase
-  alias EmpleadosExAlbc.Domain.UseCase.UpdateJefesucursalUseCase
+  alias EmpleadosExAlbc.Domain.UseCases.Supervisor.RegisterSupervisorUseCase
+  alias EmpleadosExAlbc.Domain.UseCases.Jefesucursal.RegisterJefesucursalUseCase
+  alias EmpleadosExAlbc.Domain.UseCases.Jefesucursal.GetJefesucursalUseCase
+  alias EmpleadosExAlbc.Domain.UseCases.Jefesucursal.GetAllJefesucursalUseCase
+  alias EmpleadosExAlbc.Domain.UseCases.Jefesucursal.DeleteJefesucursalUseCase
+  alias EmpleadosExAlbc.Domain.UseCases.Jefesucursal.UpdateJefesucursalUseCase
   alias EmpleadosExAlbc.Infrastructure.EntryPoint.ErrorHandler
   require Logger
   use Plug.Router
