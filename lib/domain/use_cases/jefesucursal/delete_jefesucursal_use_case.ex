@@ -8,7 +8,7 @@ defmodule EmpleadosExAlbc.Domain.UseCases.Jefesucursal.DeleteJefesucursalUseCase
     with {:ok, jefesucursal} <- Jefesucursal.delete(data[:id]),
          # {:ok, _} <- legal_validation(jefesucursal),
          {:ok, get_jefesucursal} <- delete_jefesucursal(Map.get(jefesucursal, :id)) do
-      Logger.info("Delete jefesucursal: #{inspect(get_jefesucursal)}")
+      Logger.info("Deleted jefesucursal: #{inspect(get_jefesucursal)}")
       {:ok, get_jefesucursal}
     end
   end
