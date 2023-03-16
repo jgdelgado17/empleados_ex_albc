@@ -3,6 +3,7 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   Access point to the rest exposed services
   """
   # alias EmpleadosExAlbc.Utils.DataTypeUtils
+  alias EmpleadosExAlbc.Domain.UseCase.RegisterSupervisorUseCase
   alias EmpleadosExAlbc.Domain.UseCase.RegisterJefesucursalUseCase
   alias EmpleadosExAlbc.Domain.UseCase.GetJefesucursalUseCase
   alias EmpleadosExAlbc.Domain.UseCase.GetAllJefesucursalUseCase
@@ -39,18 +40,6 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
     build_response("Hello World", conn)
   end
 
-  get "/empleados_ex_albc/api/jefesucursal/:id" do
-    jefesucursal = GetJefesucursalUseCase.find_by_id(%{id: id})
-    build_response(jefesucursal, conn)
-  end
-
-  get "/empleados_ex_albc/api/jefesucursal/" do
-    case GetAllJefesucursalUseCase.find_all() do
-      {:ok, jefesucursal} -> jefesucursal |> build_response(conn)
-      {:error, error} -> %{status: 500, body: error} |> build_response(conn)
-    end
-  end
-
   post "/empleados_ex_albc/api/jefesucursal" do
     params_map = conn.params |> Map.new(fn {key, value} -> {String.to_atom(key), value} end)
 
@@ -69,9 +58,37 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
     end
   end
 
+  get "/empleados_ex_albc/api/jefesucursal/" do
+    case GetAllJefesucursalUseCase.find_all() do
+      {:ok, jefesucursal} ->
+        Enum.map(jefesucursal, fn mapa ->
+          Map.drop(mapa, [:__meta__, :inserted_at, :updated_at])
+        end)
+        |> build_response(conn)
+
+      {:error, error} ->
+        %{status: 500, body: error} |> build_response(conn)
+    end
+  end
+
+  get "/empleados_ex_albc/api/jefesucursal/:id" do
+    jefesucursal = GetJefesucursalUseCase.find_by_id(%{id: id})
+    jefesucursal = Map.drop(jefesucursal, [:__meta__, :inserted_at, :updated_at, :supervisor])
+    build_response(jefesucursal, conn)
+  end
+
   delete "/empleados_ex_albc/api/jefesucursal/:id" do
     case DeleteJefesucursalUseCase.delete(%{id: id}) do
       {:ok, jefesucursal} -> jefesucursal |> build_response(conn)
+      {:error, error} -> %{status: 500, body: error} |> build_response(conn)
+    end
+  end
+
+  post "/empleados_ex_albc/api/supervisor" do
+    params_map = conn.params |> Map.new(fn {key, value} -> {String.to_atom(key), value} end)
+
+    case RegisterSupervisorUseCase.register(params_map) do
+      {:ok, supervisor} -> supervisor |> build_response(conn)
       {:error, error} -> %{status: 500, body: error} |> build_response(conn)
     end
   end
