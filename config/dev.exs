@@ -25,6 +25,12 @@ config :empleados_ex_albc, EmpleadosExAlbc.Infrastructure.Adapters.Repository.Re
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+config :amqp, :connection,
+  username: "guest",
+  password: "guest",
+  host: "localhost",
+  port: 5672
+
 config :empleados_ex_albc,
   generate_uuid_behaviour:
     EmpleadosExAlbc.Infrastructure.DrivenAdapters.Repository.Generic.UuidData,

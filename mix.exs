@@ -43,6 +43,7 @@ defmodule EmpleadosExAlbc.MixProject do
       {:timex, "~> 3.0"},
       {:excoveralls, "~> 0.10", only: :test},
       {:ex_unit_sonarqube, "~> 0.1", only: :test},
+      {:amqp, "~> 3.2"}
     ]
   end
 end

@@ -3,6 +3,7 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   Access point to the rest exposed services
   """
   # alias EmpleadosExAlbc.Utils.DataTypeUtils
+  alias EmpleadosExAlbc.Infrastructure.Adapters.Rabbitmq.Rabbitmq
   alias EmpleadosExAlbc.Domain.UseCases.Supervisor.RegisterSupervisorUseCase
   alias EmpleadosExAlbc.Domain.UseCases.Jefesucursal.RegisterJefesucursalUseCase
   alias EmpleadosExAlbc.Domain.UseCases.Jefesucursal.GetJefesucursalUseCase
@@ -40,12 +41,21 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
     build_response("Hello World", conn)
   end
 
+  defp publicarMQ(entidad, evento) do
+    entidad = entidad |> Map.put(:event, evento)
+    Rabbitmq.start_link(inspect(entidad, pretty: true))
+  end
+
   post "/empleados_ex_albc/api/jefesucursal" do
     params_map = conn.params |> Map.new(fn {key, value} -> {String.to_atom(key), value} end)
 
     case RegisterJefesucursalUseCase.register(params_map) do
-      {:ok, jefesucursal} -> jefesucursal |> build_response(conn)
-      {:error, error} -> %{status: 500, body: error} |> build_response(conn)
+      {:ok, jefesucursal} ->
+        jefesucursal |> build_response(conn)
+        publicarMQ(jefesucursal, "Jefe sucursal creado")
+
+      {:error, error} ->
+        %{status: 500, body: error} |> build_response(conn)
     end
   end
 
@@ -53,8 +63,11 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
     params_map = conn.params |> Map.new(fn {key, value} -> {String.to_atom(key), value} end)
 
     case UpdateJefesucursalUseCase.update(id, params_map) do
-      {:ok, jefesucursal} -> jefesucursal |> build_response(conn)
-      {:error, error} -> %{status: 500, body: error} |> build_response(conn)
+      {:ok, jefesucursal} ->
+        jefesucursal |> build_response(conn)
+
+      {:error, error} ->
+        %{status: 500, body: error} |> build_response(conn)
     end
   end
 
@@ -74,6 +87,7 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   get "/empleados_ex_albc/api/jefesucursal/:id" do
     jefesucursal = GetJefesucursalUseCase.find_by_id(%{id: id})
     jefesucursal = Map.drop(jefesucursal, [:__meta__, :inserted_at, :updated_at, :supervisor])
+    publicarMQ(jefesucursal, "Jefe sucursal consultado")
     build_response(jefesucursal, conn)
   end
 
