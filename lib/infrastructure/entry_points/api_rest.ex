@@ -41,9 +41,10 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
     build_response("Hello World", conn)
   end
 
-  defp publicarMQ(entidad, evento) do
+  defp queueMQ(entidad, evento) do
     entidad = entidad |> Map.put(:event, evento)
-    Rabbitmq.start_link(inspect(entidad, pretty: true))
+    Rabbitmq.publish(inspect(entidad, pretty: true))
+    Rabbitmq.consume()
   end
 
   post "/empleados_ex_albc/api/jefesucursal" do
@@ -52,7 +53,7 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
     case RegisterJefesucursalUseCase.register(params_map) do
       {:ok, jefesucursal} ->
         jefesucursal |> build_response(conn)
-        publicarMQ(jefesucursal, "Jefe sucursal creado")
+        queueMQ(jefesucursal, "Jefe sucursal creado")
 
       {:error, error} ->
         %{status: 500, body: error} |> build_response(conn)
@@ -65,6 +66,7 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
     case UpdateJefesucursalUseCase.update(id, params_map) do
       {:ok, jefesucursal} ->
         jefesucursal |> build_response(conn)
+        queueMQ(jefesucursal, "Jefe sucursal actualizado")
 
       {:error, error} ->
         %{status: 500, body: error} |> build_response(conn)
@@ -87,7 +89,7 @@ defmodule EmpleadosExAlbc.Infrastructure.EntryPoint.ApiRest do
   get "/empleados_ex_albc/api/jefesucursal/:id" do
     jefesucursal = GetJefesucursalUseCase.find_by_id(%{id: id})
     jefesucursal = Map.drop(jefesucursal, [:__meta__, :inserted_at, :updated_at, :supervisor])
-    publicarMQ(jefesucursal, "Jefe sucursal consultado")
+    queueMQ(jefesucursal, "Jefe sucursal consultado")
     build_response(jefesucursal, conn)
   end
 

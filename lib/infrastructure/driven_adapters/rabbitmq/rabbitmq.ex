@@ -1,31 +1,36 @@
 defmodule EmpleadosExAlbc.Infrastructure.Adapters.Rabbitmq.Rabbitmq do
   use AMQP
 
-  @moduledoc """
-  Provides functions for your generic Da
-  Example:
-  def replace_me(param1, param2) do
-    {:ok, param1, param2}
+  defp start_link do
+    Connection.open()
   end
-  """
-  def start_link(algo) do
-    {:ok, connection} = Connection.open()
-    {:ok, channel} = Channel.open(connection)
 
-    queue_name = "cola_elixir"
-    Queue.declare(channel, queue_name)
-    Basic.publish(channel, "", queue_name, algo)
-    Basic.consume(channel, queue_name, nil, no_ack: true)
-    IO.puts("Consumiendo.....")
-    # message = Basic.get(channel, queue_name)
-    # IO.inspect(message)
-
-    # {:ok, consumer} = Basic.consume(channel, queue_name)
-
-    # receive do
-    #   {:basic_deliver, payload, _meta} ->
-    #     IO.puts("Mensaje recibido: #{payload}")
-    #     Basic.ack(channel, payload.delivery_tag)
-    # end
+  defp stop_link(conn) do
+    Connection.close(conn)
   end
+
+  defp queue_name() do
+    "cola_elixir"
+  end
+
+  def publish(message) do
+    with {:ok, connection} <- start_link(),
+         {:ok, channel} <- Channel.open(connection),
+         {:ok, _} <- Queue.declare(channel, queue_name()) do
+      Basic.publish(channel, "", queue_name(), message)
+      IO.puts("Publicando mensaje......... #{message}")
+      stop_link(connection)
+    end
+  end
+
+  def consume() do
+    with {:ok, connection} <- start_link(),
+         {:ok, channel} <- Channel.open(connection),
+         {:ok, _} <- Queue.declare(channel, queue_name()),
+         {:ok, _} <- Basic.consume(channel, queue_name(), nil, no_ack: true) do
+      IO.puts("Consumiendo mensajes encolados..........")
+      stop_link(connection)
+    end
+  end
+
 end
